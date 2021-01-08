@@ -1,14 +1,11 @@
 package com.codepalace.accelerometer
 
-import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 
@@ -58,8 +55,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
 
             square.text = "up/down ${upDown.toInt()}\n sides ${sides.toInt()}"
-
-
         }
     }
 
