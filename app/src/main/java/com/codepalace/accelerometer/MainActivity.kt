@@ -1,5 +1,6 @@
 package com.codepalace.accelerometer
 
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -21,9 +22,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         // Keeps phone in light mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        square = findViewById(R.id.iv_square)
-        setUpSensorStuff()
+        square = findViewById(R.id.tv_square)
 
+        setUpSensorStuff()
     }
 
     private fun setUpSensorStuff() {
@@ -32,9 +33,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         // Specify the sensor you want to listen to
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME, SensorManager.SENSOR_DELAY_UI)
+            sensorManager.registerListener(
+                this,
+                accelerometer,
+                SensorManager.SENSOR_DELAY_FASTEST,
+                SensorManager.SENSOR_DELAY_FASTEST
+            )
         }
-
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -51,10 +56,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             square.apply {
                 rotationX = upDown * 3f
                 rotationY = sides * 3f
-                rotation = sides * -1f
+                rotation = -sides
+                translationX = sides * -10
+                translationY = upDown * 10
             }
 
-            square.text = "up/down ${upDown.toInt()}\n sides ${sides.toInt()}"
+            // Changes the colour of the square if it's completely flat
+            val color = if (upDown.toInt() == 0 && sides.toInt() == 0) Color.GREEN else Color.RED
+            square.setBackgroundColor(color)
+
+            square.text = "up/down ${upDown.toInt()}\nleft/right ${sides.toInt()}"
         }
     }
 
