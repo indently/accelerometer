@@ -72,5 +72,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         return
     }
+
+    override fun onDestroy() {
+        sensorManager.unregisterListener(this)
+        super.onDestroy()
+    }
 }
 
